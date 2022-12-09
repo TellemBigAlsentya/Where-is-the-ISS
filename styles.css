@@ -1,0 +1,9 @@
+* {
+    
+}
+
+#location-data-HUD {
+    display: flex;
+    flex-direction: column;
+}
+
