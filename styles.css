@@ -1,9 +1,68 @@
-* {
-    
+@font-face {
+    font-family: Space-Font;
+    src: url(space-font.otf);
 }
 
-#location-data-HUD {
+body {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    background-color: rgb(167, 220, 220);
+}
+h1 {
+    color: palevioletred;
+    font-family: Space-Font;
+    font-size: 49px;
+    background-color:aquamarine;
+}
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    align-self: center;
+    width: 200px;
+  }
+.locataionData {
+    border: 1px dashed;
+    align-self: center;
+
+}
+#title-bar {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: baseline;
+    background-color:aquamarine;
+    border: 2px;
+    border-radius: 50px;
+}
+#title-bar #title {
+    align-self: center;
+}
+#location-data-HUD {
+    display: flex;
+    flex-flow: column wrap; 
+    justify-content: center;
+    align-items: center;
+    background-color: lavender;
+    border: solid 2px lavenderblush;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    border-radius: 50px;
+    padding-bottom: 20px;
+    width: 500px;
+}
+
+#map-container {
+    display: flex;
+    justify-content: center;
+    border: 20px;
+    border-color:thistle;
+    background-color: thistle;
+    border-radius: 10px;
+}
+#issMap { 
+    height: 500px;
+    width: 900px;
 }
 

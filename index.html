@@ -5,22 +5,75 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Where is the ISS: Practice with API's</title>
-    <link ref="stylesheet" href="styles.css"/>
-    <script src="javascript.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" 
+    integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />  
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+    integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+    crossorigin=""></script>
+    <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
     <div id="title-bar">
-        <h1>Where is the International Space Station</h1>
-        <h1>{ISS}</h1>
+        <h1 id="title">Where is the International Space Station</h1>
     </div>
     <div id="location-data-HUD">
         <br>
         <h3 class="locataionData">Locational Data</h3>
-        <p class="locataionData">
+        <table>
+            <tr>
+               <th>Latitude:</th>
+               <td><span id="latitude"> </span></td>
+            </tr>
+            <tr>
+               <th>Longitude:</th>
+               <td><span id="longitude"> </span></td>
+            </tr>
+            <tr>
+               <th>Velocity:</th>
+               <td><span id="velocity"> </span></td>
+            </tr>
+        </table>
+        
+        
+        <!-- <p class="locataionData">
             Latitude: <span id="latitude"> </span><br>
             Longitude: <span id="longitude"> </span><br>
-            Velocity: <span id="velocity"> </span><br>
+            Velocity: <span id="velocity"> </span> km/hr<br>
             Visibility: <span id="visibility"> </span>
-        </p>
+        </p> -->
+    </div>
+    <div id="map-container">
+        <div id="issMap"></div>
+    </div>
+     <script>
+        const urlISS = 'https://api.wheretheiss.at/v1/satellites/25544'; 
+        const myMap = L.map('issMap').setView([0,0],2);
+        const issMarker = L.icon({
+            iconUrl: 'ISS.png',
+            iconSize: [100, 100],
+            iconAnchor: [50, 50]
+});
+        const marker = L.marker([0,0], {icon: issMarker}).addTo(myMap);
+
+        async function getISS() {
+            const response = await fetch(urlISS);
+            const ISSData = await response.json();
+            const {latitude, longitude, velocity, visibility} = ISSData;
+            document.getElementById('latitude').innerHTML = latitude.toFixed(3);
+            document.getElementById('longitude').innerHTML = longitude.toFixed(3);
+            document.getElementById('velocity').innerHTML = velocity.toFixed(3);
+            document.getElementById('visibility').innerHTML = visibility;
+            marker.setLatLng([latitude, longitude]);
+            myMap.setView([latitude, longitude]);
+        }
+        getISS();
+
+        setInterval(getISS, 1000);
+
+        // map attribution and tile addition
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 19,attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(myMap);
+        // L.marker([`${xPosition}`,`${yPosition}`], {icon: issMarker}).addTo(myMap);
+    </script>
 </body>
 </html>
